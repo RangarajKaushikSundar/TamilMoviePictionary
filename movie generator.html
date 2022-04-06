@@ -1,0 +1,84 @@
+<html>
+<head>
+<style>
+body {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.2em;
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 40px 10px;
+  line-height: 1.65em;
+  background: #006ee6;
+  color: #fff;
+  font-weight: 300;
+}
+
+h1 {
+  text-align: center;
+  margin: 20% 0 5% 0;
+}
+
+#wordbox {
+    /*opacity: 0;*/
+    margin: 30px auto 0;
+    display: block;
+    width: 300px;
+    height: 40px;
+    font-size: 30px;
+    text-align: center;
+    background: #fff;
+    border-radius: 6px;
+    color: black;
+    transition: 1s linear;
+}
+
+#button {
+  background: black;
+    border: 0;
+    color: #fff;
+    font-size: 20px;
+    padding: 1em 2em;
+    cursor: pointer;
+    margin: 0 auto 60px;
+    display: block;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+
+
+</style>
+</head>
+<h1>Random Word Generator</h1>
+
+<form name="WordForm">  
+  <input type=text name="WordBox" id="wordbox"><br />
+  <input type=button value="Generate" onClick="PickRandomWord(document.WordForm);" id="button">
+</form>
+
+<script>
+  
+words = [ "Anniyan", "Vaaranam Aayiram", "Indian", "Padaiyappa", "Kushi", "Priyamaanavale", "Badri", "Shahjahan", "Youth",  "Thirumalai", "Udhaya", "Ghilli", "Madhurey", "Sachein", "Sivakasi", "Azhagiya Tamil Magan", "Kuruvi", "Vettaikaaran", "Velayudham", "Thuppakki", "Nanban", "Kaththi", "Mersal ", "Bigil", "Master", "Minnale", "Vaaranam Aayiram", "Vinnaithaandi Varuvaayaa", "Kaakha Kaakha", "Yennai Arindhaal", "Dumm Dumm Dumm","Kannathil Muthamittal","Aaytha Ezhuthu ","Guru ","Raavanan","Kadal","O Kadhal Kanmani","Kaatru Veliyidai","Chekka Chivantha Vaanam","Vaanam Kottattum","Putham Pudhu Kaalai","Vaaranam Aayiram","Baba","Chandramukhi","Sivaji","Kuselan","Enthiran","Kochadaiiyaan",		"Lingaa","Kabali","Kaala", "Petta","Darbar","Annaatthe","Hey Ram", "Thenali", "Aalavandhan", "Paarthale Paravasam", "Pammal K. Sambandam	", "Panchatanthiram", "Anbe Sivam", "Nala Damayanthi", "Virumaandi", "Vasool Raja MBBS", "Mumbai Xpress", "Vettaiyaadu Vilaiyaadu", "Dasavathaaram", "Unnaipol Oruvan", "Manmadan Ambu", "Vishwaroopam", "Uttama Villain", "Papanasam", "Vikram",];
+
+visited_set = new Set();
+
+function PickRandomWord(frm) {
+  var rnd = getUnseenRandom();
+
+  frm.WordBox.value = words[rnd]
+}
+
+function getUnseenRandom() {
+    const random = Math.ceil(Math.random() * words.length);
+    if(visited_set.has(random)){
+        return getUnseenRandom();
+    }
+    else {
+        visited_set.add(random);
+    }
+    return random;
+}
+</script>
+
+</html>
