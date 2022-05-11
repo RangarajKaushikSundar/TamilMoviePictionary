@@ -57,12 +57,23 @@
       background-color: rgb(8, 27, 75)
     }
 
+    h1 {
+      box-sizing: border-box;
+      color: rgb(255, 255, 255);
+      margin: auto;
+      padding: 10px;
+      font-family: Verdana, sans-serif;
+      font-size: 20px;
+      background-color: rgb(2, 10, 31)
+    }
+
     .home {
       margin-top: 40vh;
     }
   </style>
 </head>
 <div class="home">
+  <h1>Tamil Pictionary</h1>
   <div class="Choose">
     <label for="game">Choose Game:</label>
     <select onchange="setGame()" name="game" id="game">
@@ -93,7 +104,6 @@
   function setGame() {
     visited_set = new Set();
     selectedGame = document.getElementById("game").selectedIndex;
-    console.log(selectedGame);
     switch (selectedGame) {
       case 0:
         thisGame = movieNames;
