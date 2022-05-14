@@ -1,2 +1,2 @@
-# rangarajkaushiksundar.github.io
+# tamilpictionary.github.io
 Randomly generates tamil movie names
