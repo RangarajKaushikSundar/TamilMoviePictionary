@@ -7,7 +7,7 @@
       font-family: Verdana, sans-serif;
       font-size: 1.2em;
       padding: 40px 10px;
-      background: url("pathalapathalaSong.jpeg") no-repeat;
+      background: url("moviePairs.jpg") no-repeat;
       background-position: center;
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -18,10 +18,9 @@
 
     #wordbox {
       opacity: 80;
-      margin: 30px auto 0;
+      margin: auto;
       display: block;
       width: 90%;
-      height: 20%;
       font-size: 30px;
       text-align: center;
       background: #fff;
@@ -66,11 +65,14 @@
       display: block;
       background-color: rgb(8, 27, 75);
       color: rgb(255, 255, 255);
-      line-height: 1.65em;
       border-radius: 10px;
       max-width: 920px;
       margin: 0 auto;
       margin-top: 40vh;
+    }
+
+    #wordboxText {
+      padding: 50px 0;
     }
 
     @media only screen and (max-width: 600px) {
@@ -101,7 +103,7 @@
   </style>
 </head>
 <div class="home">
-  <h1>Tamil Pictionary</h1>
+  <h1 id="heading">Tamil Pictionary</h1>
   <div class="choose">
     <label for="game">Choose Game:</label>
     <select onchange="setGame()" name="game" id="game">
@@ -110,12 +112,17 @@
       <option value="food">South Indian Food</option>
       <option value="northIndianDishes">Other Food</option>
       <option value="placesInChennai">Areas in Chennai</option>
+      <option value="sitcom">Sitcom Characters</option>
+      <option value="hp">Harry Potter Charactres</option>
+      <option value="anime">Anime Charactres</option>
     </select>
   </div>
-  <form class="movieForm" name="movieForm">
-    <input disabled type=text name="wordbox" id="wordbox"><BR>
-    <input type=button value="Generate" onClick="genRandomWord(document.movieForm);" id="button">
-  </form>
+  <div class="movieForm" name="movieForm">
+    <div type=text name="wordbox" id="wordbox">
+      <p id="wordboxText"><br /></p>
+    </div><BR>
+    <input type=button value="Generate" onClick="genRandomWord();" id="button">
+  </div>
 </div>
 <script>
   movieNames = ["Anniyan", "Vaaranam Aayiram", "Indian", "Padaiyappa", "Kushi", "Priyamaanavale", "Badri", "Shahjahan", "Youth", "Thirumalai", "Udhaya", "Ghilli", "Madhurey", "Sachein", "Sivakasi", "Azhagiya Tamil Magan", "Kuruvi", "Vettaikaaran", "Velayudham", "Thuppakki", "Nanban", "Kaththi", "Mersal ", "Bigil", "Master", "Minnale", "Vaaranam Aayiram", "Vinnaithaandi Varuvaayaa", "Kaakha Kaakha", "Yennai Arindhaal", "Dumm Dumm Dumm", "Kannathil Muthamittal", "Aaytha Ezhuthu ", "Guru ", "Raavanan", "Kadal", "O Kadhal Kanmani", "Kaatru Veliyidai", "Chekka Chivantha Vaanam", "Vaanam Kottattum", "Putham Pudhu Kaalai", "Vaaranam Aayiram", "Baba", "Chandramukhi", "Sivaji", "Kuselan", "Enthiran", "Kochadaiiyaan", "Lingaa", "Kabali", "Kaala", "Petta", "Darbar", "Annaatthe", "Hey Ram", "Thenali", "Aalavandhan", "Paarthale Paravasam", "Pammal K. Sambandam	", "Panchatanthiram", "Anbe Sivam", "Nala Damayanthi", "Virumaandi", "Vasool Raja MBBS", "Mumbai Xpress", "Vettaiyaadu Vilaiyaadu", "Dasavathaaram", "Unnaipol Oruvan", "Manmadan Ambu", "Vishwaroopam", "Uttama Villain", "Papanasam", "Vikram",];
@@ -123,47 +130,104 @@
   tamilDishes = ["Thakkali Soru", "Sambar Soru", "Congee", "Adai", "Aviyal", "Thengai Soru", "Milagu Soru", "Paruppu Soru", "Karuvepillai Soru", "Thayir Soru", "Nei Soru", "Urulai Soru", "Muttaikos Soru", "Kudaimilagai Soru", "Kootansoru", "Kothamalli Pudina Soru", "Manga Soru", "Thatta payaru arisi paruppu Soru", "Vetrilai poondu Soru", "Brinji Soru", "Elumichai Soru (Lemon rice)", "Ghee pongal", "Ladiesfinger sambar", "Potato, tomato and carrot sambar", "Carrot and beans sambar", "Arachuvitta sambar", "Bitter gourd pitlai", "Sambar for idly/dosa/pongal", "Mango Sambar", "Mixed Vegetable Sambar", "Vendhaya Keerai sambar", "Brinjal Sambar", "Onion Arachu vitta Sambar", "Lemon rasam", "Paruppu rasam (tomato rasam)", "Cumin rasam", "Garlic rasam", "Kollu Rasam (horse gram rasam)", "Pepper rasam", "Pineapple rasam", "Tomato rasam", "Uttapam", "Bonda", "Dosa", "Murukku", "Sambar", "Coconut chutney", "Idli", "Vada", "Masala dosa", "Oats dosa", "Wheat dosa", "Set dosa", "Plain dosa", "Egg dosa", "KaRi dosa", "Paneer dosa", "Palak dosa", "Mini soya dosa", "Pesarattu (green dosa", "Adai dosa", "Light white dosa", "Kadapa karam dosa", "Mysore masala dosa", "Onion rava dosa", "Ragi wheat dosa", "Rava dosa", "Neer dosa",]
   otherDishes = ["Tomato Soup", "Hot & Sour Soup", "Sweet Corn Veg.Soup", "Mirthanya Soup", "Mushroom Soup", "Gobi 65", "Paneer 65", "Paneer Tikka", "Fried Mushroom", "Paneer Mushroom Fry", "Dal Tadka", "Gobi Manchurian Gravy", "Chilly Paneer Dry", "Jeera Rice", "Ghee Kalma Idly", "Vegetable Noodles", "Garlic Fried Rice", "Paneer Fried Rice", "Phulka", "Aloo Paratha", "Plain Naan", "Stuffed Naan", "Veggie lasagne", "Italian veggie balls", "Aubergine parmigiana", "Veggie puttanesca", "Spinach and ricotta pasta", "Minestrone soup", "Panzanella", "Vegetable pizza", "Spicy mushroom lasagne", "Vegetarian bolognese", "Roasted butternut squash and sage risotto with pinenuts", "Roast vegetable lasagne", "Gnocchi with wild rocket", "Pasta primavera", "Spinach and ricotta ravioli with sage butter", "Vegetable pizza", "Courgette and lemon risotto", "Silk handkerchief pasta with pesto", "Roast vegetable lasagne", "Italian green lentil soup", "Four cheese pizza",]
   placesInChennai = ["Adambakkam", "Adyar", "Alwarpet", "Ambattur", "Aminjikarai", "Anna Nagar", "Ashok Nagar", "Avadi", "Besant Nagar", "Basin Bridge", "Chepauk", "Chetput", "Chintadripet", "Chitlapakkam", "Chrompet", "Egmore", "Ekkaduthangal", "Ennore", "Foreshore Estate", "Fort St. George", "George Town", "Gopalapuram", "Government Estate", "Guindy", "Guduvancheri", "IIT Madras", "Injambakkam", "Karapakkam", "Kattivakkam", "Kattupakkam", "K.K. Nagar", "Keelkattalai", "Kattivakkam", "Kilpauk", "Kodambakkam", "Kodungaiyur", "Kolathur", "Korattur", "Korukkupet", "Kottivakkam", "Kotturpuram", "Kottur", "Kovilambakkam", "Koyambedu", "Kundrathur", "Madhavaram", "Madhavaram Milk Colony", "Madipakkam", "Madambakkam", "Maduravoyal", "Manali", "Manali New Town", "Manapakkam", "Mandaveli", "Mangadu", "Mannady", "Mathur", "Medavakkam", "Meenambakkam", "MGR Nagar", "Minjur", "Mogappair", "MKB Nagar", "Mount Road", "Moolakadai", "Moulivakkam", "Mugalivakkam", "Mudichur", "Mylapore", "Nandanam", "Nanganallur", "Nanmangalam", "Neelankarai", "Nemilichery", "Nesapakkam", "Nolambur", "Noombal", "Nungambakkam", "Otteri", "Padi", "Pakkam", "Palavakkam", "Pallavaram", "Pallikaranai", "Pammal", "Park Town", "Parry's Corner", "Pattabiram", "Pattaravakkam", "Pazhavanthangal", "Peerkankaranai", "Perambur", "Peravallur", "Perumbakkam", "Perungalathur", "Perungudi", "Pozhichalur", "Poonamallee", "Porur", "Pudupet", "Pulianthope", "Purasaiwalkam", "Puthagaram", "Puzhal", "Puzhuthivakkam/ Ullagaram", "Raj Bhavan", "Ramavaram", "Red Hills", "Royapettah", "Royapuram", "Saidapet", "Saligramam", "Santhome", "Selaiyur", "Sholavaram", "Sholinganallur", "Sowcarpet", "St.Thomas Mount", "Surapet", "Tambaram", "Teynampet", "Tharamani", "T. Nagar", "Thirumangalam", "Thirumullaivoyal", "Thiruneermalai", "Thiruninravur", "Thiruvanmiyur", "Tiruverkadu", "Thiruvotriyur", "Thuraipakkam", "Tirusulam", "Tiruvallikeni", "Tondiarpet", "United India Colony", "Vandalur", "Vadapalani", "Valasaravakkam", "Vallalar Nagar", "Vanagaram", "Velachery", "Velappanchavadi", "Villivakkam", "Virugambakkam", "Vyasarpadi", "Washermanpet", "West Mambalam"];
+  harryPotter = ["Harry Potter", "Ron Weasley", "Hermione Granger", "Rubeus Hagrid", "Albus Dumbledore", "Draco Malfoy", "Minerva McGonagall", "Severus Snape", "Gilderoy Lockhart", "Ginny Weasley", "Lucius Malfoy", "Vernon Dursley", "Petunia Dursley", "Dudley Dursley", "Arthur Weasley", "Molly Weasley", "Sirius Black", "Remus Lupin", "Peter Pettigrew", "Professor Trelawney", "Neville Longbottom", "Madame Rosmerta", "Fred Weasley", "George Weasley", "Alastor Moody", "Cedric Diggory", "Cho Chang", "Fleur Delacour", "Viktor Krum", "Rita Skeeter", "Bartemius Crouch Jr", "Lord Voldemort", "Bellatrix Lestrange", "Dolores Umbridge", "Barty Crouch Sr.", "Cornelius Fudge", "Luna Lovegood", "Nymphadora Tonks", "Argus Filch", "Professor Horace Slughorn"];
+
+  // Shows
+  theOffice = ["Michael Scott [The Office]", "Dwight Schrute [The Office]", "Jim Halpert [The Office]", "Pam Beesly [The Office]", "Ryan Howard [The Office]", "Stanley Hudson [The Office]", "Phyllis Vance [The Office]", "Kevin Malone [The Office]", "Angela Martin [The Office]", "Oscar Martinez [The Office]", "Kelly Kapoor [The Office]", "Toby Flenderson [The Office]", "Meredith Palmer [The Office]", "Creed Bratton [The Office]", "Jan Levinson [The Office]", "Karen Filippelli [The Office]", "Andy Bernard [The Office]"];
+  tbbt = ["Leonard Hofstadter [The Big Bang Theory]", "Sheldon Cooper [The Big Bang Theory]", "Rajesh Koothrappali [The Big Bang Theory]", "Penny Hofstadter [The Big Bang Theory]", "Howard Wolowitz [The Big Bang Theory]", "Bernadette Rostenkowski-Wolowitz [The Big Bang Theory]", "Amy Farrah Fowler [The Big Bang Theory]", "Stuart Bloom [The Big Bang Theory]"]
+  himym = ["Ted Mosby [How I Met Your Mother]", "Marshall Eriksen [How I Met Your Mother]", "Robin Scherbatsky [How I Met Your Mother]", "Barney Stinson [How I Met Your Mother]", "Lily Aldrin [How I Met Your Mother]", "Tracy McConnell [How I Met Your Mother]", "Ranjit [How I Met Your Mother]", "Carl the Bartender [How I Met Your Mother]", "Wendy the waitress [How I Met Your Mother]", "Victoria [How I Met Your Mother]", "Stella [How I Met Your Mother]", "Zoey [How I Met Your Mother]"];
+  b99 = ["Jake Peralta [Brooklyn 99]", "Rosa Diaz [Brooklyn 99]", "Terry Jeffords [Brooklyn 99]", "Amy Santiago [Brooklyn 99]", "Charles Boyle [Brooklyn 99]", "Raymond Holt [Brooklyn 99]", "Hitchcock [Brooklyn 99]", "Scully [Brooklyn 99]", "Gina Linetti [Brooklyn 99]", "Kevin Cozner [Brooklyn 99]",];
+  // Add/Remove any show you dont want
+  sitcoms = [].concat(theOffice).concat(tbbt).concat(himym).concat(b99)
+
+  // Anime
+  avatar = ["Aang [Avatar]", "Sokka [Avatar]", "Katara [Avatar]", "Zuko [Avatar]", "Uncle Iroh [Avatar]", "Appa [Avatar]", "Momo [Avatar]", "Toph Beifong [Avatar]", "Azula [Avatar]", "Suki [Avatar]", "Fire Lord Ozai [Avatar]",];
+  anime = [].concat(avatar);
 
 
-  visited_set = new Set();
+
+  visitedSet = new Set();
   var thisGame = movieNames;
 
   function setGame() {
-    visited_set = new Set();
+    visitedSet = new Set();
+    document.getElementById("wordboxText").innerHTML = "<br />";
     selectedGame = document.getElementById("game").selectedIndex;
     switch (selectedGame) {
       case 0:
         thisGame = movieNames;
+        updateHeading('YES');
+        setBackgroundImage("moviePairs.jpg");
         break;
       case 1:
         thisGame = tamilMovieSongs;
+        updateHeading('YES');
+        setBackgroundImage("movieSongs.jpeg");
         break;
       case 2:
         thisGame = tamilDishes;
+        updateHeading('YES');
+        setBackgroundImage("southIndianFood.jpg");
         break;
       case 3:
         thisGame = otherDishes;
+        updateHeading('MAYBE');
+        setBackgroundImage("northIndian.jpg");
+        break;
+      case 4:
+        thisGame = placesInChennai;
+        updateHeading('YES');
+        setBackgroundImage("chennai.jpeg");
+        break;
+      case 5:
+        thisGame = sitcoms;
+        updateHeading('NO');
+        setBackgroundImage("sitcoms.png");
+        break;
+      case 6:
+        thisGame = harryPotter;
+        updateHeading('NO');
+        setBackgroundImage("hogwarts.jpeg");
         break;
       default:
-        thisGame = placesInChennai;
+        thisGame = anime;
+        updateHeading('NO');
+        setBackgroundImage("anime.png");
         break;
     }
   }
-  function genRandomWord(form) {
-    let random = getUnseenRandom();
-    let counter = 0;
-    while (counter < 50 && thisGame[random] !== undefined && visited_set.has(thisGame[random])) {
-      random = getUnseenRandom();
-      counter++;
-    }
 
-    visited_set.add(thisGame[random]);
-    form.wordbox.value = thisGame[random]
+  function updateHeading(isTamil) {
+    document.getElementById("heading").innerText = isTamil === "YES" ? "Tamil Pictionary" : isTamil === "MAYBE" ? "Tamil Pictionary?" : "Pictionary";
   }
 
-  function getUnseenRandom() {
-    const random = Math.ceil(Math.random() * thisGame.length);
-    return random;
+  function setBackgroundImage(picName) {
+    document.body.style.backgroundImage = `url(${picName})`;
+  }
+
+  function genRandomWord() {
+    const word = getUnseenRandomWord();
+    visitedSet.add(word);
+    document.getElementById("wordboxText").innerText = word !== undefined ? word : "SEEN ALL WORDS";
+  }
+
+  function getUnseenRandomWord() {
+    let random = Math.ceil(Math.random() * thisGame.length);
+    let counter = 0;
+    while (counter < 100 && thisGame[random] !== undefined && thisGame[random] !== null && visitedSet.has(thisGame[random])) {
+      random = getUnseenRandomWord();
+      counter++;
+    }
+    if (thisGame[random] === undefined) {
+      for (const word of thisGame) {
+        if (!visitedSet.has(word)) {
+          return word;
+        }
+      }
+    } else {
+      return thisGame[random];
+    }
+
   }
 </script>
 
