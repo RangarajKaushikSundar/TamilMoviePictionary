@@ -1,4 +1,5 @@
-## Tamil Pictionary
+# Tamil Pictionary
+Also has pictionary words for non-tamil categories like "sitcoms" and "anime"
 
 # How to Play
 **Number of Players:** 2+
@@ -10,8 +11,9 @@
 5. Pass the mobile to the person next in turn.
 
 # Mobile Demo:
+![mobileWalkthroug](https://user-images.githubusercontent.com/17104137/168493772-b788c523-b5be-4ebd-84ab-6cf05b70cf9c.gif)
 
-![mobileWalkthroug](https://user-images.githubusercontent.com/17104137/168493674-3992721a-994c-4e45-a417-b79152e35a29.gif)
+
 
 
 # Desktop View
