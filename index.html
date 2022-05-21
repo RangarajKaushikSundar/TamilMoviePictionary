@@ -2,12 +2,14 @@
 
 <head>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Generate words for Tamil Movie Pictionary or Charades">
+
   <style>
     body {
       font-family: Verdana, sans-serif;
       font-size: 1.2em;
       padding: 40px 10px;
-      background: url("moviePairs.jpg") no-repeat;
+      background-repeat: no-repeat;
       background-position: center;
       -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -75,20 +77,7 @@
       supported by Chrome, Edge, Opera and Firefox */
     }
 
-    @media only screen and (max-width: 600px) {
-      .home {
-        margin: 0 auto;
-        margin-top: 30vh;
-      }
 
-      select {
-        width: 30%;
-        padding: 5px 30px 5px 6px;
-      }
-      a {
-        margin-top: 10px;
-      }
-    }
 
     select {
       -webkit-appearance: none;
@@ -102,6 +91,31 @@
       font-family: inherit;
       font-size: 16px;
       transition: all 150ms ease;
+    }
+
+
+    @media only screen and (max-width: 600px) {
+      .home {
+        margin: 0 auto;
+        margin-top: 45vh;
+      }
+
+      select {
+        width: 30%;
+        padding: 5px 30px 5px 6px;
+      }
+
+      a {
+        margin-top: 10px;
+      }
+    }
+
+
+
+    @media only screen and (max-width: 375px) {
+      select {
+        width: 100%;
+      }
     }
 
     a:link,
@@ -135,6 +149,7 @@
     <select onchange="setGame()" name="game" id="game">
       <option value="movieNames">Movie Names</option>
       <option value="tamilMovieSongs">Movie Songs</option>
+      <option value="toughTamilMovies"> Movie Names [Hard]</option>
       <option value="food">South Indian Food</option>
       <option value="northIndianDishes">Other Food</option>
       <option value="placesInChennai">Areas in Chennai</option>
@@ -154,13 +169,29 @@
   </div>
 </div>
 <script>
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  let type = connection.effectiveType;
+
+  function updateConnectionStatus() {
+    type = connection.effectiveType;
+  }
+
+  connection.addEventListener('change', updateConnectionStatus);
+
+  function isFastConnection() {
+    return type && (type === "3g" || type === "4g");
+  }
+
+  setBackgroundImage("moviePairs.jpg");
+
+  // Shameful hardcoding
   movieNames = ["Anniyan", "Vaaranam Aayiram", "Indian", "Padaiyappa", "Kushi", "Priyamaanavale", "Badri", "Shahjahan", "Youth", "Thirumalai", "Udhaya", "Ghilli", "Madhurey", "Sachein", "Sivakasi", "Azhagiya Tamil Magan", "Kuruvi", "Vettaikaaran", "Velayudham", "Thuppakki", "Nanban", "Kaththi", "Mersal ", "Bigil", "Master", "Minnale", "Vaaranam Aayiram", "Vinnaithaandi Varuvaayaa", "Kaakha Kaakha", "Yennai Arindhaal", "Dumm Dumm Dumm", "Kannathil Muthamittal", "Aaytha Ezhuthu ", "Guru ", "Raavanan", "Kadal", "O Kadhal Kanmani", "Kaatru Veliyidai", "Chekka Chivantha Vaanam", "Vaanam Kottattum", "Putham Pudhu Kaalai", "Vaaranam Aayiram", "Baba", "Chandramukhi", "Sivaji", "Kuselan", "Enthiran", "Kochadaiiyaan", "Lingaa", "Kabali", "Kaala", "Petta", "Darbar", "Annaatthe", "Hey Ram", "Thenali", "Aalavandhan", "Paarthale Paravasam", "Pammal K. Sambandam	", "Panchatanthiram", "Anbe Sivam", "Nala Damayanthi", "Virumaandi", "Vasool Raja MBBS", "Mumbai Xpress", "Vettaiyaadu Vilaiyaadu", "Dasavathaaram", "Unnaipol Oruvan", "Manmadan Ambu", "Vishwaroopam", "Uttama Villain", "Papanasam", "Vikram",];
   tamilMovieSongs = ["Anbe Anbe [Jeans]", "Anjali Anjali pushpanjali [Duet]", "Asai Asai [Dhool]", "Arabu Naade [Thottal Poo Malarum]", "Elangaathu Veesuthey [Pithamagan]", "Chinna Thaaiaval [Thalapathy]", "En Mel Vizhuntha Mazhaithuli [Kadhal Desam]", "Kathal Kaditham [Jodi]", "Velli Malare [Jodi]", "Oru Deivam Thandha [Kannathil Muthamittal]", "Kadhal Rojave [Roja]", "Pudhu Vellai Mazhai [Roja]", "Ninaithu Ninaithu [7G Rainbow Colny]", "Kana Kanum Kalangal [7G]", "Vaseegara [Minnale]", "Partha Mudhal Naale [Vettaiyadhu Vilaiyadu]", "Munbe Vaa [Jillunu Oru Kadhal]", "Kangal Irandal [subramaniyapuram]", "Kannalane [Bombay]", "Malargale Malargale [Love Birds]", "Malare Mounama [Karna]", "Netru Illatha Maatram [Pudhiya Mugam]", "Uruguthey [Veyil]", "Vizhiyil [Kreedam]", "Vinmeen Vithaiyil [Thegidi]", "Enna Satham Indha [Punnagai Mannan]", "Mayanginen Solla Thayinginen [Naane Raaja Naane Mandhiri]", "Ooru Sanam [Mella Thiranthathu Kananvu]", "Guruvayurappa [Pudhu Pudhu Arthangal]", "Vaa Vaa Anbe Anbe [Agni Natchithram]", "Valai Osai [Sathya]", "Kaatrin Mozhi [Mozhi]", "Kanden Kanden [Pirivom Sathipom]", "Kadhal vandhadhum [Poo ellam Un vaasam]", "Thavamindri [Anbu]", "Enadhu Uyire [Bheema]", "Snehithane [Alaipaayuthey]", "Mottukale [Roja Kootam]", "Un perai Sollum bodhey [Angadi Theru]", "Meenamma [Asai]", "Ennavale Adi [Kadhalan]", "Narumugaye [Iruvar]", "Kalaiyil Dinamum [New]", "Kalyana Maalai [Pudhu Pudhu Arthangal]", "Andhi Mazhai [Rajapaarvai]", "Kadhal Kavithaigal [Gopura Vasalile]", "Sundari Kannal [Thalapathy]", "Manam Virumbudhey [Neruku Ner]", "Sudum Nilavu [Thambi]", "Aval Ulaga Azhagi [Lesa Lesa]", "Ini Nanum Nan Ilai [Hey nee Romba Azhaga iruka]", "Love Pannu [12B]", "Kadhalikum [Chellamae]", "Pudhu Malar Thootu [Poovellam Un Vaasam]", "Kanave Kalayadhe [kannethire Thondrinal]", "Pattu Seelai [kalabha Kadhalan]", "Konja Naal Poru Thalaiva [Aasai]", "Azhagu Nilave [Pavithra]", "Athikalaiyil [Ne varuvai Ena]", "Saravana Bhava [Kadhala Kadhala]", "Apdi Pakrudhana [Ivan]", "Kannalae Miya [Alli Thantha Vanam]", "Inidhu Inidhu [Inidhu Inidhu]", "Ore Oru Oorile [Abiyum Nanum]", "Poovinai [Anantha Thandavam]", "June July [Kalloori]", "Yen Pennedru [Love Today]", "Unakaga [Bigil]", "En jeevan [Theri]", "Konji pesida venam [Sethupathi]", "Melisaye [Mr. Romeo]", "Vennilave [minsara kanavu]", "Kollaiyila [kadhalan]", "Malargaley [love birds]", "Ennavale ennavale [ninaithen vandai]", "I love u love u [ullathai all itha]", "Un per solla asai dhan [minsara kanna]", "Partha mudhal naale [vetaiyadu velayadu]", "Poovukul olindirukum [jeans]", "Anjali anjali [duet]", "Velli malare [jodi]", "Manasukul oru puyal [star]", "Swasame [thenali]", "Unnodu vazhada [Amarkalam]", "Asai asai [dhool]", "Nenjukul peididum [Varanam ayiram]", "Gulmuzhar malare [Majnu]", "Kannalane [Bombay]", "Anbe Anbe [Jeans]", "Kurukku siruthavale [Mudhalvan]", "Telephone manipol [Indian]", "Mukkala [Kadhalan]", "Romeo aattam potaal [Mr.Romeo]", "Lucky Lucky [Ratchagan]", "Mana Madurai [Minsara Kanavu]", "Kai thatti thatti [Jodi]", "Thaniye [Rhythm]", "Nenjiniley [Uyire]", "Jimbalakka [En swasa katre]", "O Maria [Kadhalar Dhinam]", "Enna solla pogirai [Kandukondaen kandukondaen]", "Sarigamae [Boys]", "Kuluvalilay [Muthu]", "Evano Oruvan [Alaipauthey]", "Ennai kaanavillaye [Kadhal Desam]", "Oru Dheivam thantha [Kannaththil Muththamittaal]", "Kannalane [Bombay]", "Varaha Nadhikarai [Sangamam]", "Kaatrey En Vaasal vandhai [Rhythm]", "Nilamey poru Nilamey [Rhythm Movie]", "Sa re ga me [Boys]", "Maro Maro [Boys]", "Karka Karka [Vettai Aadu Vilayadu]", "Vetrikodi kattu [Padayappa]", "Ella pugazhum [Azhagiya Tamil Magan]", "Kannukul Kanne [Vinnai Thandi Varuvaya]", "Idhalin Oram [Three movie]", "Po Nee Po [Three]", "Ethir Neechal Adi [Ethir Neechal]", "What a Karaavad [VIP]", "Pakkam Vandhu [Kaththi]", "Edhirthu Nil [Briyani]", "Oru Murai [Muppozhudum Un Karpanaigal]", "Donu Donu Donu [Maari]", "Ulagam Oruvanukka [Kabali]", "Surviva [Vivegam]", "Uravugal Thodarkathai [Aval Appadithaan]", "Chinna Kannan Azhaikkiraan [Kavikkuyil]", "Putham Pudhu Kaalai [Alaigal Oivathillai]", "Entha poovilum [Murattu Kaalai]", "Oru Iniya Manathu [Johnny]", "En Iniya Pon Nilaave [Moodupani]", "Madai Thiranthu [Nizhalgal]", "Kanmani Anbodu Kadhalan [Gunaa]", "Thenpandi Cheemaiyile [Nayakan]", "Kodai Kaala Katre [Panneer Pushpangal]", "Shenbagame [Enga Ooru Paattukaaran]", "Nila Kaayum [Chembaruthi]", "Nee Paartha Paarvai [Hey Ram]", "Vaa Vennila [Mella Thirandhadhu Kadhavu]", "Kuzhaloodhum Kannanukku [Mella Thirandhadhu Kadhavu]", "Oru Sanam [Mella Thirandhadhu Kadhavu]", "Ore Naal Unnai Naan [Ilamai Oonjal Aadugirathu]", "Edho Mogam [Kozhi Koovudhu]", "Veetukku Veetukku Vaasapadi [Kizhakku Vasal]", "Enna Satham [Punnagai Mannan]", "Edhedho Ennam [Punnagai Mannan]", "Kanne Kalaimaane [Moondram Pirai]", "Poo Malaye [Pagal Nilavu]", "Anjali Anjali [Anjali]", "Pani Vizhum Malarvanam [Ninaivellam Nithya]"];
   tamilDishes = ["Thakkali Soru", "Sambar Soru", "Congee", "Adai", "Aviyal", "Thengai Soru", "Milagu Soru", "Paruppu Soru", "Karuvepillai Soru", "Thayir Soru", "Nei Soru", "Urulai Soru", "Muttaikos Soru", "Kudaimilagai Soru", "Kootansoru", "Kothamalli Pudina Soru", "Manga Soru", "Thatta payaru arisi paruppu Soru", "Vetrilai poondu Soru", "Brinji Soru", "Elumichai Soru (Lemon rice)", "Ghee pongal", "Ladiesfinger sambar", "Potato, tomato and carrot sambar", "Carrot and beans sambar", "Arachuvitta sambar", "Bitter gourd pitlai", "Sambar for idly/dosa/pongal", "Mango Sambar", "Mixed Vegetable Sambar", "Vendhaya Keerai sambar", "Brinjal Sambar", "Onion Arachu vitta Sambar", "Lemon rasam", "Paruppu rasam (tomato rasam)", "Cumin rasam", "Garlic rasam", "Kollu Rasam (horse gram rasam)", "Pepper rasam", "Pineapple rasam", "Tomato rasam", "Uttapam", "Bonda", "Dosa", "Murukku", "Sambar", "Coconut chutney", "Idli", "Vada", "Masala dosa", "Oats dosa", "Wheat dosa", "Set dosa", "Plain dosa", "Egg dosa", "KaRi dosa", "Paneer dosa", "Palak dosa", "Mini soya dosa", "Pesarattu (green dosa", "Adai dosa", "Light white dosa", "Kadapa karam dosa", "Mysore masala dosa", "Onion rava dosa", "Ragi wheat dosa", "Rava dosa", "Neer dosa",]
   otherDishes = ["Tomato Soup", "Hot & Sour Soup", "Sweet Corn Veg.Soup", "Mirthanya Soup", "Mushroom Soup", "Gobi 65", "Paneer 65", "Paneer Tikka", "Fried Mushroom", "Paneer Mushroom Fry", "Dal Tadka", "Gobi Manchurian Gravy", "Chilly Paneer Dry", "Jeera Rice", "Ghee Kalma Idly", "Vegetable Noodles", "Garlic Fried Rice", "Paneer Fried Rice", "Phulka", "Aloo Paratha", "Plain Naan", "Stuffed Naan", "Veggie lasagne", "Italian veggie balls", "Aubergine parmigiana", "Veggie puttanesca", "Spinach and ricotta pasta", "Minestrone soup", "Panzanella", "Vegetable pizza", "Spicy mushroom lasagne", "Vegetarian bolognese", "Roasted butternut squash and sage risotto with pinenuts", "Roast vegetable lasagne", "Gnocchi with wild rocket", "Pasta primavera", "Spinach and ricotta ravioli with sage butter", "Vegetable pizza", "Courgette and lemon risotto", "Silk handkerchief pasta with pesto", "Roast vegetable lasagne", "Italian green lentil soup", "Four cheese pizza",]
   placesInChennai = ["Adambakkam", "Adyar", "Alwarpet", "Ambattur", "Aminjikarai", "Anna Nagar", "Ashok Nagar", "Avadi", "Besant Nagar", "Basin Bridge", "Chepauk", "Chetput", "Chintadripet", "Chitlapakkam", "Chrompet", "Egmore", "Ekkaduthangal", "Ennore", "Foreshore Estate", "Fort St. George", "George Town", "Gopalapuram", "Government Estate", "Guindy", "Guduvancheri", "IIT Madras", "Injambakkam", "Karapakkam", "Kattivakkam", "Kattupakkam", "K.K. Nagar", "Keelkattalai", "Kattivakkam", "Kilpauk", "Kodambakkam", "Kodungaiyur", "Kolathur", "Korattur", "Korukkupet", "Kottivakkam", "Kotturpuram", "Kottur", "Kovilambakkam", "Koyambedu", "Kundrathur", "Madhavaram", "Madhavaram Milk Colony", "Madipakkam", "Madambakkam", "Maduravoyal", "Manali", "Manali New Town", "Manapakkam", "Mandaveli", "Mangadu", "Mannady", "Mathur", "Medavakkam", "Meenambakkam", "MGR Nagar", "Minjur", "Mogappair", "MKB Nagar", "Mount Road", "Moolakadai", "Moulivakkam", "Mugalivakkam", "Mudichur", "Mylapore", "Nandanam", "Nanganallur", "Nanmangalam", "Neelankarai", "Nemilichery", "Nesapakkam", "Nolambur", "Noombal", "Nungambakkam", "Otteri", "Padi", "Pakkam", "Palavakkam", "Pallavaram", "Pallikaranai", "Pammal", "Park Town", "Parry's Corner", "Pattabiram", "Pattaravakkam", "Pazhavanthangal", "Peerkankaranai", "Perambur", "Peravallur", "Perumbakkam", "Perungalathur", "Perungudi", "Pozhichalur", "Poonamallee", "Porur", "Pudupet", "Pulianthope", "Purasaiwalkam", "Puthagaram", "Puzhal", "Puzhuthivakkam/ Ullagaram", "Raj Bhavan", "Ramavaram", "Red Hills", "Royapettah", "Royapuram", "Saidapet", "Saligramam", "Santhome", "Selaiyur", "Sholavaram", "Sholinganallur", "Sowcarpet", "St.Thomas Mount", "Surapet", "Tambaram", "Teynampet", "Tharamani", "T. Nagar", "Thirumangalam", "Thirumullaivoyal", "Thiruneermalai", "Thiruninravur", "Thiruvanmiyur", "Tiruverkadu", "Thiruvotriyur", "Thuraipakkam", "Tirusulam", "Tiruvallikeni", "Tondiarpet", "United India Colony", "Vandalur", "Vadapalani", "Valasaravakkam", "Vallalar Nagar", "Vanagaram", "Velachery", "Velappanchavadi", "Villivakkam", "Virugambakkam", "Vyasarpadi", "Washermanpet", "West Mambalam"];
   harryPotter = ["Harry Potter", "Ron Weasley", "Hermione Granger", "Rubeus Hagrid", "Albus Dumbledore", "Draco Malfoy", "Minerva McGonagall", "Severus Snape", "Gilderoy Lockhart", "Ginny Weasley", "Lucius Malfoy", "Vernon Dursley", "Petunia Dursley", "Dudley Dursley", "Arthur Weasley", "Molly Weasley", "Sirius Black", "Remus Lupin", "Peter Pettigrew", "Professor Trelawney", "Neville Longbottom", "Madame Rosmerta", "Fred Weasley", "George Weasley", "Alastor Moody", "Cedric Diggory", "Cho Chang", "Fleur Delacour", "Viktor Krum", "Rita Skeeter", "Bartemius Crouch Jr", "Lord Voldemort", "Bellatrix Lestrange", "Dolores Umbridge", "Barty Crouch Sr.", "Cornelius Fudge", "Luna Lovegood", "Nymphadora Tonks", "Argus Filch", "Professor Horace Slughorn"];
-
+  toughTamilMovies = ["Arambamae attagasam", "Sollathaan ninaikiren", "Yokkiyan Varan Somba Thooki Ulla Vai", "Kurathi magan", "Tharma Yuddam", "Athisaya piravi", "Muthina Kathirika", "Anantha purathu veedu", "Paradesi", "Bhuvana oru kelvi kuri", "Vennilaa Veedu", "Karimedu karuvaayan", "Ninaivae oru sangeetham", "Uzhaithu vazha vendum", "Thenpandi Seemaiyilae", "Paatukku oru thalaivan", "Pulan visaranai", "Moondrezhuthil en moochirukum", "Ulavu thurai", "Veeram Velanja Mannu", "Ragupathi Ragava Rajaram", "Aayiram jenmangal", "En kelviku enna bathil", "Justice Gopinath", "Nandri , meendum varuga", "Engeyo ketta kural", "Paarthaal pasi theerum", "Mangala Vaathiyam", "Ullasa paravaigal", "Puyala kilambi varom", "Enaku vaaitha adimaigal", "Apoorva Sagothararkal", "Kerala Nattilam Pengaludane", "Athagapattathu magajanangalae", "Sangili bungili kadhava thorae", "Illavatta pasanga", "Pongadi Neengalum Unga Kaadhalum", "Ivan yaarendru therigiratha", "Thappillama oru thappu", "Engeyum naan erupen", "Pachakili parimala", "Keikraan meikkiran", "Yen Ennai Ippadi Mayakinai?", "Ithu Maalai Nerathu Mayakkam", "Aindhaam Thalaimurai Sidha Vaidhiya Sigamani", "Meenakshi Kadhalan Ilangovan", "Thigilodu Vilaiyaadu", "Vishayam Veliye Theriya Koodadhu", "Purampokku Engira Podhuvudamai", "Puriyadha Anandam Puthithaga Arambam", "Ariyathavan Puriyathavan", "Miss Pannidatheenga Appuram Varuthapaduveenga", "Summa Nachunu Irukku", "Ingu Kadhal Katrutharapadum", "Irandam Kuththu", "Aayiram Muthangaludam Thenmozhi", "Madhavanum Malarvizhiyum", "Rettai Kadhir", "Sabash Sariyaana Potti", "Aye! Nee romba Alaga irukka", "Rasikum seemanai", "Thiru Thiru Thuru Thuru", "Mudhal Mudhal Mudhal Varai", "Arai Enn 305-ill Kadavul", "Mudhal Thagaval Arikkai", "Putham Pudhu Kaalai", "Nishabdham", "Soorarai Pottru", "Mookuthi Amman", "Gumaasathaavin  mahal", "kalathoor Kannamma", "Naan Vaazhavaipen", "Pathavipiramanam", "Makkal aanaiyittal", "Enaku naane neethibathi", "Naalai unadhu naal", "Needhi pizhaithathu", "Kallazhagar", "Kuzhanthai kanda kudiyarasu", "Adutha veetu pen", "Aadhavantha deivam", "Vaanam Kottattum", "Irrumanam innaithal thirumanam", "Oru iyakkunarin kadhal diary", "Tharkappu", "Raja Ranguski", "Kallathoni", "Kuttrame Thandanai", "Mupparimanam", "Amara Kaaviyam", "Keikraan Meikkiran", "Naalu peruku nallathuna yethuvum thapilla", "Simhasanam", "Engal asaan", "Aarupushpangal", "Shankar salim simon", "Dharmasakkaram", "Nibhunan", "Soorathengai", "Keikraan meikkiran", "Mangudi Minor", "Maanagara kaaval", "Jk enum nanbanin vazhakai", "Sudesi", "Mercury pookal", "Moscow vin kaviri", "Viruthagiri", "Manathil uruthi vendum", "Vengayin Mainthan", "Puthiya sagaptham", "Paadha kaanikai", "Sattam oru vilayattu", "Ananda jyothi", "Poonthotta kaavalkaran", "Ilamai oonjaladugirathu", "Iraivan Kodutha Varam", "Nizhalgal Nijamaginrathu", "Manitharkalil ithanai nirangala", "Kuruthi Punal", "Sathi leelavathi", "My dear maarthandan", "Naveena Saraswathi Sabatham", "Athimalai Muthupandi", "Injimarappa", "Sengathu Bhoomiyilae", "Kamara Kattu", "Tamilselvanum 50KM Kalaiselviyum", "Murugatrupadai", "Dummy Tappasu", "Nenju Irukkum Varai Ninaivu Irukkum", "Karpavai Katrapin", "Kadhalai Thavire Verondrum Illai", "Tharkappu", "Aindhaam Thalaimurai Sidha Vaidhiya Sigamani", "Meenakshi Kadhalan Ilangovan", "Thigilodu Vilaiyaadu", "Mudhal Thagaval Arikkai", "Yokkiyan Varan Somba Thooki Ulla Vai", "Kanden Kadhal Konden", "Kallathoni", "Kuttrame Thandanai", "Pachaikili Parimala", "Amara Kaaviyam", "Mupparimanam", "Keikraan Meikkiran", "Vishayam Veliye Theriya Koodadhu", "Purampokku Engira Podhuvudamai", "Kamara Kattu", "Puriyadha Anandam Puthithaga Arambam", "Tamilselvanum 50KM Kalaiselviyum", "Murugatrupadai", "Ariyathavan Puriyathavan", "Nagaraja Cholan MA, MLA", "Yagavarayinum Naa Kaakka", "Miss Pannidatheenga Appuram Varuthapaduveenga", "Dummy Tappasu", "Nenju Irukkum Varai Ninaivu Irukkum", "Summa Nachunu Irukku", "Ingu Kadhal Katrutharapadum", "Naveena Saraswathi Sabatham", "Sengathu Bhoomiyilae", "Aayiram Muthangaludam Thenmozhi", "Nil Gavani Sellathey", "Injimarappa", "Athimalai Muthupandi", "Madhavanum Malarvizhiyum", "Rettai Kadhir", "Kerala Nattilam Pengaludane", "Karpavai Katrapin", "Sabash Sariyaana Potti", "Pongadi Neengalum Unga Kaadhalum"];
   // Shows
   theOffice = ["Michael Scott [The Office]", "Dwight Schrute [The Office]", "Jim Halpert [The Office]", "Pam Beesly [The Office]", "Ryan Howard [The Office]", "Stanley Hudson [The Office]", "Phyllis Vance [The Office]", "Kevin Malone [The Office]", "Angela Martin [The Office]", "Oscar Martinez [The Office]", "Kelly Kapoor [The Office]", "Toby Flenderson [The Office]", "Meredith Palmer [The Office]", "Creed Bratton [The Office]", "Jan Levinson [The Office]", "Karen Filippelli [The Office]", "Andy Bernard [The Office]"];
   tbbt = ["Leonard Hofstadter [The Big Bang Theory]", "Sheldon Cooper [The Big Bang Theory]", "Rajesh Koothrappali [The Big Bang Theory]", "Penny Hofstadter [The Big Bang Theory]", "Howard Wolowitz [The Big Bang Theory]", "Bernadette Rostenkowski-Wolowitz [The Big Bang Theory]", "Amy Farrah Fowler [The Big Bang Theory]", "Stuart Bloom [The Big Bang Theory]"]
@@ -176,7 +207,7 @@
 
 
   visitedSet = new Set();
-  var thisGame = movieNames;
+  let thisGame = movieNames;
 
   function setGame() {
     visitedSet = new Set();
@@ -194,26 +225,31 @@
         setBackgroundImage("movieSongs.jpeg");
         break;
       case 2:
-        thisGame = tamilDishes;
+        thisGame = toughTamilMovies;
+        updateHeading('YES');
+        setBackgroundImage("toughTamilMovie.gif");
+        break;
+      case 3:
+        thisGame = toughTamilMovies;
         updateHeading('YES');
         setBackgroundImage("southIndianFood.jpg");
         break;
-      case 3:
+      case 4:
         thisGame = otherDishes;
         updateHeading('MAYBE');
         setBackgroundImage("northIndian.jpg");
         break;
-      case 4:
+      case 5:
         thisGame = placesInChennai;
         updateHeading('YES');
         setBackgroundImage("chennai.jpeg");
         break;
-      case 5:
+      case 6:
         thisGame = sitcoms;
         updateHeading('NO');
         setBackgroundImage("sitcoms.png");
         break;
-      case 6:
+      case 7:
         thisGame = harryPotter;
         updateHeading('NO');
         setBackgroundImage("hogwarts.jpeg");
@@ -226,12 +262,12 @@
     }
   }
 
-  var elm1 = document.getElementById('wordbox');
-  var timeout;
-  var lastTap = 0;
+  let elm1 = document.getElementById('wordbox');
+  let timeout;
+  let lastTap = 0;
   elm1.addEventListener('touchend', function (event) {
-    var currentTime = new Date().getTime();
-    var tapLength = currentTime - lastTap;
+    let currentTime = new Date().getTime();
+    let tapLength = currentTime - lastTap;
     clearTimeout(timeout);
     if (tapLength < 500 && tapLength > 0) {
       genRandomWord();
@@ -250,7 +286,13 @@
   }
 
   function setBackgroundImage(picName) {
-    document.body.style.backgroundImage = `url(${picName})`;
+    if (isFastConnection()) {
+      document.body.style.backgroundImage = `url(${picName})`;
+      document.body.style.backgroundColor = 'black';
+    } else {
+      document.body.style.background = 'none';
+      document.body.style.backgroundColor = 'white';
+    }
   }
 
   function genRandomWord() {
@@ -275,8 +317,9 @@
     } else {
       return thisGame[random];
     }
-
   }
+
+
 </script>
 
 </html>
