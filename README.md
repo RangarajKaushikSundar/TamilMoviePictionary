@@ -1,11 +1,12 @@
 # Tamil Pictionary
-Also has pictionary words for non-tamil categories like "sitcoms" and "anime". You can also use this to play charades (or "Damsharas") .
+
+[Tamil Pictionary](https://www.tamilpictionary.com/) has pictionary words for non-tamil categories like "sitcoms" and "anime". You can also use this to play charades (or "Damsharas") .
 
 # How to Play
 **Number of Players:** 2+
 
 **Game Setup**
-1. Open https://rangarajkaushiksundar.github.io/ on your mobile/ desktop.
+1. Open [https://www.tamilpictionary.com/](https://www.tamilpictionary.com/) on your mobile/ desktop.
 2. Select the game you wish to play from the drop down.
 3. Click on Excalidraw. [Reset the canvas from options].
 
