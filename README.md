@@ -1,5 +1,5 @@
 # Tamil Pictionary
-Also has pictionary words for non-tamil categories like "sitcoms" and "anime"
+Also has pictionary words for non-tamil categories like "sitcoms" and "anime". You can also use this to play charades (or "Damsharas") .
 
 # How to Play
 **Number of Players:** 2+
@@ -19,9 +19,8 @@ Also has pictionary words for non-tamil categories like "sitcoms" and "anime"
 # Mobile Demo:
 ![mobileWalkthroug](https://user-images.githubusercontent.com/17104137/168493772-b788c523-b5be-4ebd-84ab-6cf05b70cf9c.gif)
 
-
-
-
 # Desktop View
 ![Desktop View](https://user-images.githubusercontent.com/17104137/168490464-cb9d305a-0b0f-4df5-a364-c7bbe3d3cd2e.gif)
 
+# Additional Features
+- When you are opening the website with slower internet connection, you will not load any background images. (thank me later)
